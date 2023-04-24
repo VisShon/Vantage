@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
 import { AuthContext } from "@/context/AuthContext";
 
+
 export default function Home() {
 	const colors = ['#000000','#F85B5B','#F6AC63','#9F36AE','#648AAE','#86BDA6']
 	const [email,setEmail] = useState('')
@@ -65,7 +66,7 @@ export default function Home() {
 			/>
 
 			<div 
-				className="text-[25vw] cursor-pointer z-20 absolute h-[30%] top-20"
+				className="text-[25vw] cursor-pointer z-20 absolute h-[30%] top-12"
 				onClick={()=>
 					color==colors.length-1?
 					setColor(0):setColor(prev=>prev+1)

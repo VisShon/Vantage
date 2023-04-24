@@ -1,14 +1,11 @@
-import { ApolloServer } from "apollo-server-micro";
-import { schema } from "@/graphql";
-import typeDefs from '@/graphql/schema/schema.gql'
-import { Neo4jGraphQL } from "@neo4j/graphql"
 import neo4j from "neo4j-driver"
+import { ApolloServer } from '@apollo/server';
+import { startServerAndCreateNextHandler } from '@as-integrations/next';
+import { Neo4jGraphQL } from "@neo4j/graphql"
+import typeDefs from '@/graphql/schema.graphql'
 
 const driver = neo4j.driver(
-	"bolt://localhost:7687",
-	neo4j.auth.basic("neo4j", "ucvnr0021b")
 )
-
 
 export const schema = new Neo4jGraphQL({ 
 	typeDefs,
@@ -17,27 +14,14 @@ export const schema = new Neo4jGraphQL({
 
 
 const getSchema = async () => {
-    console.log("Building GraphQL Schema");
-    return await schema.getSchema();
-};
-   
+	console.log("Building GraphQL Schema")
+	return await schema.getSchema()
+}
+	 
 const apolloServer = new ApolloServer({
-    schema: await getSchema(),
-    playground: true,
-    introspection: true,
-});
+	schema: await getSchema(),
+	context: { driverConfig: { database: 'neo4j' } },
+	playground: true,
+})
 
-const startServer = apolloServer.start();
-
-export default async function handler(req, res) {
-    await startServer;
-    await apolloServer.createHandler({
-      path: "/api/graphql",
-    })(req, res);
-  }
-  
-  export const config = {
-    api: {
-      bodyParser: false,
-    },
-};
+export default startServerAndCreateNextHandler(apolloServer);

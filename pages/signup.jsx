@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import Image from "next/image"
+import { useState, useEffect } from "react"
 import localFont from 'next/font/local'
-import { useRouter } from "next/router";
+import { useRouter } from "next/router"
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
 import LinkTab from '../components/LinkTab'
 import SignUpButton from '../components/SignupButton'

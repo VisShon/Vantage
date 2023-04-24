@@ -9,14 +9,14 @@ type Event {
 	timestamp: Date
 
 	#relations
-	attendees: [User!] @relationship(type: "Attendee", direction: OUT, properties: "Attendee")
-	sponsors: [Sponsor!] @relationship(type: "Sponsors", direction: OUT)
-	announcements: [Announcement!] @relationship(type: "Announcements", direction: OUT)
-	links: [Link!] @relationship(type: "Links", direction: OUT)
-	marketList: [Marketing!] @relationship(type: "MarketList", direction: OUT)
-	mailList: [Mail!] @relationship(type: "MailList", direction: OUT)
-	goals: [Goal!] @relationship(type: "Goals", direction: OUT)
-	organisers: [User!] @relationship(type: "Organiser", direction: IN)
+	attendees: [User!]! @relationship(type: "Attendee", direction: OUT, properties: "Attendee")
+	sponsors: [Sponsor!]! @relationship(type: "Sponsors", direction: OUT)
+	announcements: [Announcement!]! @relationship(type: "Announcements", direction: OUT)
+	links: [Link!]! @relationship(type: "Links", direction: OUT)
+	marketList: [Marketing!]! @relationship(type: "MarketList", direction: OUT)
+	mailList: [Mail!]! @relationship(type: "MailList", direction: OUT)
+	goals: [Goal!]! @relationship(type: "Goals", direction: OUT)
+	organisers: [User!]! @relationship(type: "Organiser", direction: IN)
 }
 
 type User {
@@ -27,9 +27,9 @@ type User {
 	password: String
 
 	#relations
-	AttendedEvents: [Event!] @relationship(type: "Attendee", direction: IN, properties: "Attendee")
-	OrganisedEvent: [Event!] @relationship(type: "Organiser", direction: OUT)
-	links: [Link!] @relationship(type: "Links", direction: OUT)
+	AttendedEvents: [Event!]! @relationship(type: "Attendee", direction: IN, properties: "Attendee")
+	OrganisedEvent: [Event!]! @relationship(type: "Organiser", direction: OUT)
+	links: [Link!]! @relationship(type: "Links", direction: OUT)
 }
 
 type Link {
@@ -37,11 +37,23 @@ type Link {
 	name: String
 	URL: String
 
-
 	#relations
 	event: Event @relationship(type: "Links", direction: IN)
 	user: User @relationship(type: "Links", direction: IN)
 
+}
+
+type Sponsor {
+	#node
+	id: ID!
+	image: String!
+	URL: String
+	amount: Float!
+	email: String!
+	contact: String
+
+	#relations
+	event: Event! @relationship(type: "Sponsors", direction: IN)
 }
 
 type Announcement {

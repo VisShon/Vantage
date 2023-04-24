@@ -1,0 +1,91 @@
+type Event {
+	#node
+	id: ID!
+	title: String
+	slug: String
+	fromDate: Date
+	toDate: Date
+	details: String
+	timestamp: Date
+
+	#relations
+	attendees: [User!] @relationship(type: "Attendee", direction: OUT, properties: "Attendee")
+	sponsors: [Sponsor!] @relationship(type: "Sponsors", direction: OUT)
+	announcements: [Announcement!] @relationship(type: "Announcements", direction: OUT)
+	links: [Link!] @relationship(type: "Links", direction: OUT)
+	marketList: [Marketing!] @relationship(type: "MarketList", direction: OUT)
+	mailList: [Mail!] @relationship(type: "MailList", direction: OUT)
+	goals: [Goal!] @relationship(type: "Goals", direction: OUT)
+	organisers: [User!] @relationship(type: "Organiser", direction: IN)
+}
+
+type User {
+	#node
+	id: ID!
+	username: String
+	email: String
+	password: String
+
+	#relations
+	AttendedEvents: [Event!] @relationship(type: "Attendee", direction: IN, properties: "Attendee")
+	OrganisedEvent: [Event!] @relationship(type: "Organiser", direction: OUT)
+	links: [Link!] @relationship(type: "Links", direction: OUT)
+}
+
+type Link {
+	#node
+	name: String
+	URL: String
+
+
+	#relations
+	event: Event @relationship(type: "Links", direction: IN)
+	user: User @relationship(type: "Links", direction: IN)
+
+}
+
+type Announcement {
+	#node
+	id: ID!
+	title: String
+	details: String
+	timeStamp: Date
+
+	#relations
+	eventAnnouncements: Event! @relationship(type: "Announcements", direction: IN)
+}
+
+type Marketing {
+	#node
+	id: ID!
+	campaing: String
+	description: String
+
+	#relations
+	event: Event! @relationship(type: "MarketList", direction: IN)
+}
+
+type Mail {
+	#node
+	id: ID!
+	subject: String
+	message: String
+
+	#relations
+	event: Event! @relationship(type: "MailList", direction: IN)
+}
+
+type Goal {
+	#node
+	id: ID!
+	title: String
+	details: String
+	deadline: Date
+
+	#relations
+	eventGoals: Event! @relationship(type: "Goals", direction: IN)
+}
+
+interface Attendee {
+	URL: String
+}

@@ -8,15 +8,14 @@ function AuthProvider({children}) {
 
 	}
 
-	const addUser = async() =>{
+	const signUp = async(email,username,password) =>{
 
 	}
 
-	const checkUser = async(email) =>{
+	const logIn = async(email,password) =>{
 
 	}
 
-	const[user,setUser] = useState('')
 	const[isLoggedIn,setIsLoggedIn] = useState(false)
 	const[session,setSession] = useState('')
 
@@ -27,10 +26,8 @@ function AuthProvider({children}) {
 	return (
 		<AuthContext.Provider 
 			value={{
-				getSession,
-				addUser,
-				checkUser,
-				user,
+				signUp,
+				logIn,
 				isLoggedIn,
 				session,
 			}}

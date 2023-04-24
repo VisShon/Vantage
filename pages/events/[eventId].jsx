@@ -7,7 +7,7 @@ const Milans = localFont({ src: '../../styles/fonts/Milans/Milans.ttf' })
 
 function Details() {
 	return (
-		<main className="flex flex-col justify-center items-left text-left relative w-screen bg-[#648AAE]">
+		<main className="flex flex-col justify-center items-left text-left relative w-full bg-[#648AAE]">
 			<div className="text-[20vw] absolute -top-20 z-20 w-full text-center">
 				<h1 className={Milans.className}>
 					Vantage

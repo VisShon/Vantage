@@ -5,7 +5,6 @@ function EventCard({title,date,links,description,bgColor,color}) {
 	return (
 		<div className="w-[60%] justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left h-[30vh] m-5 flex flex-col items-start gap-2 hover:shadow-md">
 			<h2
-				className=""
 				style={{color:color}}
 			>
 				{title}

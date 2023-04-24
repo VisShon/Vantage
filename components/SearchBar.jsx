@@ -6,7 +6,7 @@ function SearchBar({ searchParam, setSearchParam }) {
 			<input
 				className="bg-[#d0d0d02a] p-4 rounded-full w-full glass border-none text-[#ffffff7a] placeholder:text-[#ffffff7a] px-20"
 				value={searchParam}
-				onChange={(e) => setSearchParam(e.target.value)}
+				onChange={(e) => setSearchParam(e.target.value.toLowerCase())}
 				placeholder=""
 				type="search"
 			/>

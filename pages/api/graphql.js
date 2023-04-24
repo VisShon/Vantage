@@ -5,6 +5,11 @@ import { Neo4jGraphQL } from "@neo4j/graphql"
 import typeDefs from '@/graphql/schema.graphql'
 
 const driver = neo4j.driver(
+	process.env.NEO4J_URI,
+	neo4j.auth.basic(
+		process.env.NEO4J_USERNAME, 
+		process.env.NEO4J_PASSWORD
+	)
 )
 
 export const schema = new Neo4jGraphQL({ 
@@ -20,7 +25,7 @@ const getSchema = async () => {
 	 
 const apolloServer = new ApolloServer({
 	schema: await getSchema(),
-	context: { driverConfig: { database: 'neo4j' } },
+	// context: { driverConfig: { database: 'neo4j' } },
 	playground: true,
 })
 

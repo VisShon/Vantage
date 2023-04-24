@@ -1,37 +1,13 @@
+import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import {useContext, useState } from "react";
 import localFont from 'next/font/local'
-import { useRouter } from "next/router";
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
-import { AuthContext } from "@/context/AuthContext";
-
 
 export default function Home() {
 	const colors = ['#000000','#F85B5B','#F6AC63','#9F36AE','#648AAE','#86BDA6']
 	const [email,setEmail] = useState('')
 	const [color,setColor] = useState(0)
-
-	const router = useRouter()	
-	const {checkUser} = useContext(AuthContext)
-
-	const EnterEmailHandler = async() => {
-		const prevUser = await checkUser(email)
-
-		prevUser?
-		router.push({
-			pathname:`/Login`,
-			query:{
-				email
-			}
-		}):
-		router.push({
-			pathname:`/Sign`,
-			query:{
-				email
-			}
-		})
-	}
-
 
 	return (
 		<main 
@@ -66,7 +42,7 @@ export default function Home() {
 			/>
 
 			<div 
-				className="text-[25vw] cursor-pointer z-20 absolute h-[30%] top-12"
+				className="text-[25vw] cursor-pointer z-20 absolute h-[30%] top-8"
 				onClick={()=>
 					color==colors.length-1?
 					setColor(0):setColor(prev=>prev+1)
@@ -80,26 +56,36 @@ export default function Home() {
 				<p>The one stop solution for event management</p>
 			</div>
 
-			<div className="flex space-x-5 text-[grey]">
+			<div className="flex flex-col items-center justify-center text-[grey] relative z-20">
 				<input
-					className="relative h-10 z-10 rounded-lg p-3 my-10"
+					className="relative h-10 z-10 rounded-lg p-3 "
 					value={email}
 					onChange={(e)=>setEmail(e.target.value)}
 					placeholder="Your Email"
 				>
 				</input>
 
-				<button
-					className="relative z-10 my-10"
-					onClick={EnterEmailHandler}
-				>
-					<Image
-						className="bg-[#6326A8] rounded-[50%] w-10 h-10 p-2"
-						src={"/Arrow.svg"}
-						width={100}
-						height={100}
-					/>
-				</button>
+				<div className="flex gap-4">
+					<Link
+						className="relative z-10 my-10 bg-[#3f0c8b] rounded-full p-2 text-[white] hover:bg-[#30096b]"
+						href={{
+							pathname:'/signup',
+							query:{email:email}
+						}}
+					>
+						Sign Up
+					</Link>
+
+					<Link
+						className="relative z-10 my-10 bg-[#3f0c8b] rounded-full p-2 text-[white] hover:bg-[#30096b]"
+						href={{
+							pathname:'/login',
+							query:{email:email}
+						}}
+					>
+						Log In
+					</Link>
+				</div>
 			</div>
 		</main>
 	)

@@ -1,8 +1,7 @@
 type Event {
 	#node
-	id: ID!
+	id: ID! @id
 	title: String
-	slug: String
 	fromDate: Date
 	toDate: Date
 	details: String
@@ -21,10 +20,10 @@ type Event {
 
 type User {
 	#node
-	id: ID!
-	username: String
-	email: String
-	password: String
+	id: ID! @id
+	username: String!
+	email: String!
+	password: String! @auth(rules: [{ allow: { id: "$jwt.sub" } }])
 
 	#relations
 	AttendedEvents: [Event!]! @relationship(type: "Attendee", direction: IN, properties: "Attendee")
@@ -45,7 +44,7 @@ type Link {
 
 type Sponsor {
 	#node
-	id: ID!
+	id: ID! @id
 	image: String!
 	URL: String
 	amount: Float!
@@ -58,7 +57,7 @@ type Sponsor {
 
 type Announcement {
 	#node
-	id: ID!
+	id: ID! @id
 	title: String
 	details: String
 	timeStamp: Date
@@ -69,7 +68,7 @@ type Announcement {
 
 type Marketing {
 	#node
-	id: ID!
+	id: ID! @id
 	campaing: String
 	description: String
 
@@ -79,7 +78,7 @@ type Marketing {
 
 type Mail {
 	#node
-	id: ID!
+	id: ID! @id
 	subject: String
 	message: String
 
@@ -89,7 +88,7 @@ type Mail {
 
 type Goal {
 	#node
-	id: ID!
+	id: ID! @id
 	title: String
 	details: String
 	deadline: Date
@@ -101,3 +100,4 @@ type Goal {
 interface Attendee {
 	URL: String
 }
+

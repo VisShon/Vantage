@@ -70,7 +70,7 @@ function Profile(props) {
 			<div className="flex pt-[2%] relative z-20 mb-20">
 				<LinkTab
 					type='twitter'
-					color="#9131BE"
+					color="c"
 					bgColor="#F6E3FF"
 					link={links['twitter']}
 				/>

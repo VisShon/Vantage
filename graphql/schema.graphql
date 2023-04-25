@@ -23,7 +23,7 @@ type User {
 	id: ID! @id
 	username: String!
 	email: String!
-	password: String! @auth(rules: [{ allow: { id: "$jwt.sub" } }])
+	password: String! @auth(rules: [{allow: { id: "$jwt.sub" } }])
 
 	#relations
 	AttendedEvents: [Event!]! @relationship(type: "Attendee", direction: IN, properties: "Attendee")
@@ -63,7 +63,7 @@ type Announcement {
 	timeStamp: Date
 
 	#relations
-	eventAnnouncements: Event! @relationship(type: "Announcements", direction: IN)
+	event: Event! @relationship(type: "Announcements", direction: IN)
 }
 
 type Marketing {
@@ -94,10 +94,93 @@ type Goal {
 	deadline: Date
 
 	#relations
-	eventGoals: Event! @relationship(type: "Goals", direction: IN)
+	event: Event! @relationship(type: "Goals", direction: IN)
 }
 
 interface Attendee {
 	URL: String
 }
 
+
+
+extend type User
+	@auth(
+	rules:[{
+		operation: [UPDATE]
+		bind:  {id: "$jwt.sub"}
+	}]
+)
+
+
+extend type Goal 
+	@auth(
+	rules:[{
+		operation: [UPDATE,DELETE]
+		allow: {
+			event:{
+				organisers: {id: "$jwt.sub"}
+			}
+		}
+	}]
+)
+
+extend type Marketing 
+	@auth(
+	rules:[{
+		operation: [UPDATE,DELETE]
+		allow: {
+			event:{
+				organisers: {id: "$jwt.sub"}
+			}
+		}
+	}]
+)
+
+extend type Sponsor 
+	@auth(
+	rules:[{
+		operation: [UPDATE,DELETE]
+		allow: {
+			event:{
+				organisers: {id: "$jwt.sub"}
+			}
+		}
+	}]
+)
+
+extend type Link 
+	@auth(
+	rules:[{
+		operation: [UPDATE,DELETE]
+		allow: {
+			OR: [
+				event:{
+					organisers: {id: "$jwt.sub"}
+				},
+				user:{id: "$jwt.sub"}
+			]
+		}
+	}]
+)
+
+extend type Mail 
+	@auth(
+	rules:[{
+		operation: [UPDATE,DELETE]
+		allow: {
+			event:{
+				organisers: {id: "$jwt.sub"}
+			}
+		}
+	}]
+)
+
+extend type Event
+	@auth(
+	rules:[{
+		operation: [UPDATE,DELETE]
+		allow: {
+			organisers: {id: "$jwt.sub"}
+		}
+	}]
+)

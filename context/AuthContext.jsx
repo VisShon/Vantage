@@ -3,15 +3,7 @@ export const AuthContext = createContext()
 
 function AuthProvider({children}) {
 
-	const getSession = async(email, password) =>{
-
-	}
-
-	const signUp = async(email,username,password) =>{
-
-	}
-
-	const logIn = async(email,password) =>{
+	const getUserfromCookie = () =>{
 
 	}
 
@@ -25,8 +17,7 @@ function AuthProvider({children}) {
 	return (
 		<AuthContext.Provider 
 			value={{
-				signUp,
-				logIn,
+				getUserfromCookie,
 				isLoggedIn,
 				session,
 			}}

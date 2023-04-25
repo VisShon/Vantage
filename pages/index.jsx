@@ -57,11 +57,13 @@ export default function Home() {
 			</div>
 
 			<div className="flex flex-col items-center justify-center text-[grey] relative z-20">
-				<input
+				<input 
 					className="relative h-10 z-10 rounded-lg p-3 "
+					type="email" 
 					value={email}
 					onChange={(e)=>setEmail(e.target.value)}
-					placeholder="Your Email"
+					placeholder="user@example.com" 
+					required
 				>
 				</input>
 

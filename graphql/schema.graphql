@@ -12,10 +12,9 @@ type Event {
 	sponsors: [Sponsor!]! @relationship(type: "Sponsors", direction: OUT)
 	announcements: [Announcement!]! @relationship(type: "Announcements", direction: OUT)
 	links: [Link!]! @relationship(type: "Links", direction: OUT)
-	marketList: [Marketing!]! @relationship(type: "MarketList", direction: OUT)
 	mailList: [Mail!]! @relationship(type: "MailList", direction: OUT)
-	goals: [Goal!]! @relationship(type: "Goals", direction: OUT)
 	organisers: [User!]! @relationship(type: "Organiser", direction: IN)
+
 }
 
 type User {
@@ -23,7 +22,7 @@ type User {
 	id: ID! @id
 	username: String!
 	email: String!
-	password: String! @auth(rules: [{allow: { id: "$jwt.sub" } }])
+	password: String! @writeonly
 
 	#relations
 	AttendedEvents: [Event!]! @relationship(type: "Attendee", direction: IN, properties: "Attendee")
@@ -87,7 +86,7 @@ interface Attendee {
 extend type User
 	@auth(
 	rules:[{
-		operation: [UPDATE]
+		operations: [UPDATE]
 		bind:  {id: "$jwt.sub"}
 	}]
 )
@@ -97,7 +96,7 @@ extend type User
 extend type Sponsor 
 	@auth(
 	rules:[{
-		operation: [UPDATE,DELETE]
+		operations: [UPDATE,DELETE]
 		allow: {
 			event:{
 				organisers: {id: "$jwt.sub"}
@@ -109,13 +108,11 @@ extend type Sponsor
 extend type Link 
 	@auth(
 	rules:[{
-		operation: [UPDATE,DELETE]
+		operations: [UPDATE,DELETE]
 		allow: {
 			OR: [
-				event:{
-					organisers: {id: "$jwt.sub"}
-				},
-				user:{id: "$jwt.sub"}
+				{event: {organisers: {id: "$jwt.sub"}},}
+				{user: {id: "$jwt.sub"}}
 			]
 		}
 	}]
@@ -124,7 +121,7 @@ extend type Link
 extend type Mail 
 	@auth(
 	rules:[{
-		operation: [UPDATE,DELETE]
+		operations: [UPDATE,DELETE]
 		allow: {
 			event:{
 				organisers: {id: "$jwt.sub"}
@@ -136,60 +133,9 @@ extend type Mail
 extend type Event
 	@auth(
 	rules:[{
-		operation: [UPDATE,DELETE]
+		operations: [UPDATE,DELETE]
 		allow: {
 			organisers: {id: "$jwt.sub"}
 		}
 	}]
 )
-
-
-
-
-
-
-
-# type Marketing {
-# 	#node
-# 	id: ID! @id
-# 	campaing: String
-# 	description: String
-
-# 	#relations
-# 	event: Event! @relationship(type: "MarketList", direction: IN)
-# }
-
-# type Goal {
-# 	#node
-# 	id: ID! @id
-# 	title: String
-# 	details: String
-# 	deadline: Date
-
-# 	#relations
-# 	event: Event! @relationship(type: "Goals", direction: IN)
-# }
-
-# extend type Goal 
-# 	@auth(
-# 	rules:[{
-# 		operation: [UPDATE,DELETE]
-# 		allow: {
-# 			event:{
-# 				organisers: {id: "$jwt.sub"}
-# 			}
-# 		}
-# 	}]
-# )
-
-# extend type Marketing 
-# 	@auth(
-# 	rules:[{
-# 		operation: [UPDATE,DELETE]
-# 		allow: {
-# 			event:{
-# 				organisers: {id: "$jwt.sub"}
-# 			}
-# 		}
-# 	}]
-# )

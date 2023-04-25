@@ -3,8 +3,6 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 import localFont from 'next/font/local'
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
-
-import LinkTab from '@/components/LinkTab'
 import SignUpButton from '@/components/SignupButton'
 
 function SignUp() {
@@ -13,7 +11,6 @@ function SignUp() {
 	const [email, setEmail] = useState(router.query.email)
 	const [password, setPassword] = useState('')
 	const [username, setUsername] = useState('')
-	const [links,setLinks] = useState([])
 
 	useEffect(() => {
 		router.prefetch('/Explore')
@@ -68,38 +65,19 @@ function SignUp() {
 				<input
 					className="glass bg-[#ffffffaf] h-10 z-5 rounded-lg p-3 my-2 w-full text-[grey]"
 					value={password}
+					type="password"
 					onChange={(e)=>setPassword(e.target.value)}
 					placeholder="Password"
 					>
 				</input>
 
-				<div className="relative z-0 h-[15%] flex flex-col justify-start text-[white] items-center mt-5">
-					<p className="my-1">
-						Add social links
-					</p>
-					<div className="flex">
-						<LinkTab
-							links={links}
-							setLinks={setLinks}
-							type='twitter'
-						/>
-						<LinkTab
-							links={links}
-							setLinks={setLinks}
-							type='insta'
-						/>
-						<LinkTab
-							links={links}
-							setLinks={setLinks}
-							type='linkedin'
-						/>
-						<LinkTab
-							links={links}
-							setLinks={setLinks}
-							type='telegram'
-						/>
-					</div>
-				    <SignUpButton/>
+				<div className="relative z-0 h-[15%] flex w-full justify-center text-[white] items-center mt-5">
+				    <SignUpButton
+						username={username}
+						email={email}
+						password={password}
+
+					/>
 				</div>
 			</div>
 	</main>

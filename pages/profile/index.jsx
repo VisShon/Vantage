@@ -1,10 +1,9 @@
-import { useState, useContext, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import Image from 'next/image';
 import localFont from 'next/font/local'
 import LinkTab from '@/components/LinkTab';
 import ProfileEvents from '@/components/ProfileEvents';
-import { AuthContext } from '@/context/AuthContext';
 const Milans = localFont({ src: '../../styles/fonts/Milans/Milans.ttf' })
 
 const data = {

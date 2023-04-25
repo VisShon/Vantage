@@ -1,25 +1,30 @@
-import { useContext, useEffect } from "react"
-import { AuthContext } from "@/context/AuthContext"
+import { useEffect } from "react"
 import { useRouter } from "next/router"
 
 function LoginButton({email, password}) {
-	const {
-		user, 
-		isLoggedIn, 
-		getSession
-	} = useContext(AuthContext)
 	const router = useRouter()
 	
 	const handleClick = async() => {
-		await getSession(email,password)
-		if(isLoggedIn) 
+		const res = await fetch("/api/auth/login", {
+			method: "post",
+			mode:'cors',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email,
+				password
+			})
+		})
+		console.log(res)
+		if(false) 
 			router.push(`/Profile/${user.id}`)
 	}
 
-	useEffect(()=>{
-		if(isLoggedIn) 
-			router.push(`/Profile/${user.id}`)
-	},[])
+	// useEffect(()=>{
+	// 	if(true) 
+	// 		router.push(`/Profile/${user.id}`)
+	// },[])
 
 	return (
 		<button

@@ -1,14 +1,33 @@
 import { logIn } from "../graphql"
+import bcrypt from 'bcrypt'
+import cookie from 'cookie'
 
 export default async function handler(req,res){
-	const args = req.body.args
-	//convert password to hash
-
-	const token = await logIn(args)
+	
+	const {password,email} = req.body
+	const passwordHash = await bcrypt.hash(password,12)
+	const token = await logIn({
+		email:email,
+		password:passwordHash,
+	})
 
 	if(token=='USER_NOT_EXISTS')
-		res.send('User Does Not Exists').redirect(404,'/signup')
+		res.redirect(404,'/signup')
 
-	setCookie(res, 'user', token, { path: '/', maxAge: 2592000 })
-	res.send('User Signed Up').redirect(200,'/')
+
+	else if(token!='USER_NOT_EXISTS'){
+		res.setHeader(
+			"Set-Cookie",
+			cookie.serialize('token', token, 
+				{
+					httpOnly: true,
+					secure: process.env.NODE_ENV !== "development",
+					maxAge: 2592000,
+					sameSite: "strict",
+					path: "/",
+				}
+			)
+		);
+		res.redirect(200,'/')
+	}
 }

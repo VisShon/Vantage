@@ -1,11 +1,21 @@
 import '@/styles/globals.css'
-import AuthProvider from '@/context/AuthContext'
-import {useEffect} from 'react'
+import { useState,  useEffect} from 'react'
 import Nprogress from 'nprogress'
 import Router from 'next/router'
+import { ApolloProvider } from '@apollo/client'
+import { Initalize } from '@/apollo/index'
 
 
 export default function App({ Component, pageProps }) {
+
+	const [Apolloclient,setApolloclient]  = useState(Initalize())
+	useEffect(()=>{
+		const getApolloClient = async () =>{
+			const client = await Initalize()
+			setApolloclient(client)
+		}
+		getApolloClient()
+	},[])
 
 	useEffect(() => {
 		Router.events.on("routeChangeStart",(url)=>{
@@ -22,9 +32,9 @@ export default function App({ Component, pageProps }) {
 
 	return (
 		<>	
-			<AuthProvider>
-				<Component {...pageProps} />
-			</AuthProvider>
+			<ApolloProvider client={Apolloclient}>
+					<Component {...pageProps}/>
+			</ApolloProvider>
 		</>
 	)
 }

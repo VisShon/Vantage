@@ -2,6 +2,8 @@ import { logIn } from "../graphql"
 
 export default async function handler(req,res){
 	const args = req.body.args
+	//convert password to hash
+
 	const token = await logIn(args)
 
 	if(token=='USER_NOT_EXISTS')

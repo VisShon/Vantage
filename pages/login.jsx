@@ -9,7 +9,6 @@ function Login() {
 
 	const router = useRouter()
 	const [email, setEmail] = useState(router.query.email)
-	const [isPrev, setIsPrev] = useState(router.query.email)
 	const [password, setPassword] = useState('')
 
 	useEffect(() => {

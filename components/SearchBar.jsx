@@ -16,6 +16,7 @@ function SearchBar({ searchParam, setSearchParam }) {
 					src={'/search.svg'}
 					width={40}
 					height={40}
+					alt='vantage'
 				/>
 			</div>
 		</div>

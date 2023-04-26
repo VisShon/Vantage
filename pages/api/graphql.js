@@ -31,25 +31,12 @@ const getSchema = async () => {
 }
 
 const decodeToken = (token) =>{
-	return jwt.verify(token,process.env.JWT_KEY)
+	return jwt.decode(token)
 }
 
 	 
 const apolloServer = new ApolloServer({
 	schema: await getSchema(),
-	context: ({ req }) => {
-		const {token} = req.cookies
-		const payload = decodeToken(token)
-
-		if(!payload)
-			return
-
-		return { 
-			req, 
-			executionContext: driver,
-			jwt: payload
-		}
-	},
 	playground: true,
 })
 
@@ -119,4 +106,13 @@ export const logIn = async(args) =>{
 	return token
 }
 
-export default startServerAndCreateNextHandler(apolloServer);
+export default startServerAndCreateNextHandler(apolloServer,{
+	context: async (req) => {
+		const token = req.cookies.token;
+		const payload = decodeToken(token)
+		return { 
+			executionContext: driver,
+			jwt: payload
+		}
+	}
+});

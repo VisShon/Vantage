@@ -1,0 +1,14 @@
+mutation Mutation($input: [EventCreateInput!]!) {
+  createEvents(input: $input) {
+    events {
+      id
+      title
+      toDate
+      organisers {
+        email
+        username
+      }
+      details
+    }
+  }
+}

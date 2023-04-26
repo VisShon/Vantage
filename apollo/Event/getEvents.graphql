@@ -1,0 +1,9 @@
+query GetEvents {
+	events {
+		id
+		title
+		details
+		fromDate
+		links
+	}
+}

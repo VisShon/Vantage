@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 function EventCard({title,date,links,description,bgColor,color}) {
 	return (
-		<div className="w-[60%] justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left h-[30vh] m-5 flex flex-col items-start gap-2 hover:shadow-md">
+		<div className="w-[80%] justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[40vh] m-5 flex flex-col items-start gap-2 hover:shadow-md mb-28">
 			<h2
 				style={{color:color}}
 			>

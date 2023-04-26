@@ -4,6 +4,7 @@ import Nprogress from 'nprogress'
 import Router from 'next/router'
 import { ApolloProvider } from '@apollo/client'
 import { Initalize } from '@/apollo/index'
+import Navbar from '@/components/Navbar'
 
 
 export default function App({ Component, pageProps }) {
@@ -34,6 +35,7 @@ export default function App({ Component, pageProps }) {
 		<>	
 			<ApolloProvider client={Apolloclient}>
 					<Component {...pageProps}/>
+					<Navbar/>
 			</ApolloProvider>
 		</>
 	)

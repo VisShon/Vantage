@@ -6,12 +6,12 @@ type Event {
 	toDate: Date
 	details: String
 	timestamp: Date
+	links:[String]
 
 	#relations
 	attendees: [User!]! @relationship(type: "Attendee", direction: OUT, properties: "Attendee")
 	sponsors: [Sponsor!]! @relationship(type: "Sponsors", direction: OUT)
 	announcements: [Announcement!]! @relationship(type: "Announcements", direction: OUT)
-	links: [Link!]! @relationship(type: "Links", direction: OUT)
 	mailList: [Mail!]! @relationship(type: "MailList", direction: OUT)
 	organisers: [User!]! @relationship(type: "Organiser", direction: IN)
 
@@ -23,23 +23,13 @@ type User {
 	username: String!
 	email: String!
 	password: String! @writeonly
+	links:[String]
 
 	#relations
 	AttendedEvents: [Event!]! @relationship(type: "Attendee", direction: IN, properties: "Attendee")
 	OrganisedEvent: [Event!]! @relationship(type: "Organiser", direction: OUT)
-	links: [Link!]! @relationship(type: "Links", direction: OUT)
 }
 
-type Link {
-	#node
-	name: String
-	URL: String
-
-	#relations
-	event: Event @relationship(type: "Links", direction: IN)
-	user: User @relationship(type: "Links", direction: IN)
-
-}
 
 type Sponsor {
 	#node
@@ -69,7 +59,7 @@ type Announcement {
 type Mail {
 	#node
 	id: ID! @id
-	subject: String
+	idject: String
 	message: String
 
 	#relations
@@ -87,11 +77,9 @@ extend type User
 	@auth(
 	rules:[{
 		operations: [UPDATE]
-		bind:  {id: "$jwt.sub"}
+		bind:  {id: "$jwt.id"}
 	}]
 )
-
-
 
 extend type Sponsor 
 	@auth(
@@ -99,43 +87,43 @@ extend type Sponsor
 		operations: [UPDATE,DELETE]
 		allow: {
 			event:{
-				organisers: {id: "$jwt.sub"}
+				organisers: {id: "$jwt.id"}
 			}
 		}
+	},
+	{
+		operations: [CREATE]
+		isAuthenticated: true
 	}]
 )
 
-extend type Link 
-	@auth(
-	rules:[{
-		operations: [UPDATE,DELETE]
-		allow: {
-			OR: [
-				{event: {organisers: {id: "$jwt.sub"}},}
-				{user: {id: "$jwt.sub"}}
-			]
-		}
-	}]
-)
 
 extend type Mail 
 	@auth(
 	rules:[{
-		operations: [UPDATE,DELETE]
+		operations: [UPDATE,DELETE,CONNECT,DISCONNECT]
 		allow: {
 			event:{
-				organisers: {id: "$jwt.sub"}
+				organisers: {id: "$jwt.id"}
 			}
 		}
+	},
+	{
+		operations: [CREATE]
+		isAuthenticated: true
 	}]
 )
 
 extend type Event
 	@auth(
 	rules:[{
-		operations: [UPDATE,DELETE]
+		operations: [UPDATE,DELETE,CONNECT,DISCONNECT]
 		allow: {
-			organisers: {id: "$jwt.sub"}
+			organisers: {id: "$jwt.id"}
 		}
+	},
+	{
+		operations: [CREATE]
+		isAuthenticated: true
 	}]
 )

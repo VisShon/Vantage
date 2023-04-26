@@ -17,7 +17,6 @@ function SignupButton({username, email, password}) {
 				password
 			})
 		})
-		console.log(res)
 		
 		if(false) 
 			router.push(`/Profile/${user.id}`)

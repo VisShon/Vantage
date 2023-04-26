@@ -1,0 +1,9 @@
+mutation AddUserLink($where: UserWhere, $update: UserUpdateInput) {
+  updateUsers(where: $where, update: $update) {
+    users {
+      email
+      id
+      links
+    }
+  }
+}

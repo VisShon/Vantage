@@ -1,8 +1,8 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 
-export const Initalize = (composeClient) => {
+export const Initalize = () => {
 	const link = createHttpLink({
-		uri: '/graphql',
+		uri: 'http://localhost:3000/api/graphql',
 		credentials: 'same-origin'
 	  });
 	  

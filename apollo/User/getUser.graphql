@@ -1,0 +1,18 @@
+query GetUser($where: UserWhere) {
+	users(where: $where) {
+		id
+		username
+		links
+		AttendedEvents {
+			title
+			links
+			details
+		}
+		OrganisedEvent {
+			id
+			title
+			details
+			links
+		}
+	}
+}

@@ -1,0 +1,10 @@
+mutation Mutation($where: EventWhere, $connect: EventConnectInput) {
+  updateEvents(where: $where, connect: $connect) {
+	events {
+	  attendees {
+		id
+		username
+	  }
+	}
+  }
+}

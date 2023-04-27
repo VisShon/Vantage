@@ -2,28 +2,60 @@
 import Image from "next/image"
 import Link from "next/link"
 import localFont from 'next/font/local'
-import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { getType } from "@/util/getType";
+import { useMutation } from "@apollo/client"
+import AddAttendee from "../apollo/Event/addAttendee.graphql"
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
+import nProgress from "nprogress";
 
+function InfoCard({fromDate, toDate, links, address, attendees=0, id, userID, isUserAttending} ) {
 
-function InfoCard() {
-
-	const {fromDate, toDate, links, address, attendees} = {
-		title:'Front end and Web Design',
-		fromDate:new Date('2023-04-13T14:11:33.609Z'),
-		toDate:new Date('2023-04-13T14:11:33.609Z'),
-		links:{
-			twitter:'',
-			website:''
-		},
-		attendees:220,
-		address:'53, Haji Mahal, Mohd.ali Rd, Mandvi',
-		description:'New innovations and ideas in design new innovations and ideas in design.',
+	const [addAttendee,{error,loading,data}] = useMutation(AddAttendee);
+	console.log(error,data)
+	
+	const handleRegister = () =>{
+		addAttendee({
+			variables:{
+				where: {
+				  id
+				},
+				connect: {
+				  attendees: [
+					{
+					  where: {
+						node: {
+						  id: userID
+						}
+					  },
+					  edge: {
+						URL: null
+					  },
+					  overwrite: false
+					}
+				  ]
+				}
+			}
+		})
 	}
 
-	const handleRegister = async() =>{
+	useEffect(() => {
+		if(loading){
+			nProgress.start()
+		}
+		if(!loading){
+			nProgress.done(false)
+			if(data)
+				router.push(`/event/${data.createEvents.events[0].id}`)
+			if(error)
+				alert(error)
+		}
+		
+		if(error){
+			nProgress.done(false)
+		}
+	},[loading])
 
-	}
 
 	return (
 		<div className="sticky top-10 justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left flex flex-col items-center gap-2 hover:shadow-md">
@@ -33,7 +65,7 @@ function InfoCard() {
 					from.
 				</h2>
 				<p className={Milans.className}>
-					{fromDate.toISOString()}
+					{fromDate}
 				</p>
 			</div>
 
@@ -42,22 +74,20 @@ function InfoCard() {
 					to.
 				</h2>
 				<p className={Milans.className}>
-					{toDate.toISOString()}
+					{toDate}
 				</p>
 			</div>
 
 			<div className="flex w-full justify-start">
-				{Object.keys(links)
-				.map((item,index)=>(
+				{links?.map((item,index)=>(
 					<Link 
 						key={index}
 						className='p-2 mr-2 bg-[#EAFBFF] rounded-full flex justify-center items-center hover:shadow-md active:opacity-90 select-none'
-						href={links[item]}
+						href={item}
 					>
-							
 						<Image
 							className="w-[1.5rem] p-1"
-							src={`/${item}_316ABE.svg`}
+							src={`/${getType(item)}_316ABE.svg`}
 							width={50}
 							height={50}
 						/>
@@ -72,7 +102,7 @@ function InfoCard() {
 				</div>
 			</div>
 
-			<iframe
+			{address&&<iframe
                   width="450"
                   height="140"
 				  className="w-full rounded-xl"
@@ -81,7 +111,7 @@ function InfoCard() {
                     address
                   )}`}
                   allowFullScreen
-			></iframe>
+			></iframe>}
 
 			<button
 				className='p-4 bg-[#316ABE] font-light font-lexend text-center rounded-lg w-full hover:bg-[#2a5ba5] m-4 text-[white]'

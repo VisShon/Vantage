@@ -117,10 +117,14 @@ extend type Mail
 extend type Event
 	@auth(
 	rules:[{
-		operations: [UPDATE,DELETE,CONNECT,DISCONNECT]
+		operations: [UPDATE,DELETE,DISCONNECT]
 		allow: {
 			organisers: {id: "$jwt.id"}
 		}
+	},
+	{
+		operations: [CONNECT]
+		isAuthenticated:true
 	},
 	{
 		operations: [CREATE]

@@ -1,0 +1,18 @@
+query GetEventAttend($where: EventWhere) {
+  events(where: $where) {
+    id
+    title
+    attendees {
+      id
+      username
+    }
+    announcements {
+      timeStamp
+      title
+      details
+    }
+    fromDate
+    toDate
+    links
+  }
+}

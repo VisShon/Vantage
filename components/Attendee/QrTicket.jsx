@@ -2,17 +2,11 @@ import Link from "next/link"
 import QrGenerator from "./utils/QrGenerator"
 import Image from "next/image"
 
-const TicketData = {
-	title:'Front end and Web Design',
-	timestamp:new Date('2023-04-19T14:11:33.609Z'),
-	ticketLink:''
-}
-
-function QrTicket() {
+function QrTicket({userMail,userTicket,eventTitle}) {
 	return (
-		<div className="rounded-xl relative mt-[12%] z-20 bg-[White] px-10 py-5 w-[40%]  flex flex-col gap-5 text-[#898989] items-center">
+		<div className="rounded-xl relative mt-[12%] z-20 bg-[White] px-10 w-[40%]  flex flex-col gap-5 text-[#898989] items-center">
 			<Link 
-				className=" z-20 self-end"
+				className=" z-20 self-end absolute top-10"
 				href={' '}>
 				<Image
 					src={'/mail_31BEB6.svg'}
@@ -20,18 +14,15 @@ function QrTicket() {
 					height={20}
 				/>
 			</Link>
-			<QrGenerator/>
+			<QrGenerator
+				link={'hello'}
+			/>
 
 			<div>
 				<h2
 					className="text-[#31BEB6]">
 					{TicketData?.title}
 				</h2>
-
-				<p
-					className="text-[#4D4D4D]">
-					{TicketData?.timestamp.toISOString()}
-				</p>
 			</div>
 
 			<span>Ticket for 1 enjoy 😊</span>

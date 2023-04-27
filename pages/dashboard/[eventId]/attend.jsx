@@ -6,31 +6,54 @@ import Attendees from '@/components/Attendee/Attendees';
 import QrTicket from '@/components/Attendee/QrTicket';
 import LiveStream from '@/components/Attendee/LiveStream';
 import Messaging from '@/components/Attendee/Messaging';
+import GetEventAttend from '@/apollo/Event/getEventAttend.graphql'
+import nProgress from 'nprogress'
+import { useRouter } from "next/router"
+import { useQuery } from '@apollo/client'
+import { useState,useEffect } from 'react';
 const Milans = localFont({ src: '../../../styles/fonts/Milans/Milans.ttf' })
 
-const EventData = {
-	title:'Odyssey',
-	fromDate:new Date('2023-04-15T14:11:33.609Z'),
-	toDate:new Date('2023-04-16T14:11:33.609Z'),
-	links:{
-		twitter:'',
-		website:''
-	},
-	attendes:220,
-	address:'mumbai',
-	description:'New innovations and ideas in design new innovations and ideas in design.',
-}
+function attend({ticketLink}) {
 
-function attend() {
+	const [selected,setSelected] = useState('ANNOUNCEMNT') 
+	const [eventData, setEventData] = useState({})
+	const router = useRouter()
+	const id = router.query.eventId
+	console.log(id)
+	const { loading, error, data } = useQuery(GetEventAttend,{
+		variables:{
+			where:{
+				id
+			}
+		}
+	})
 	
+	useEffect(() => {
+		if(loading){
+			nProgress.start()
+		}
+		if(!loading){
+			nProgress.done(false)
+			setEventData(data?.events[0])
+		}
+		if(error){
+			nProgress.done(false)
+		}
+	},[loading])
+
+	console.log(eventData)
+
 	return (
 		<main className="bg-[#86BDA6] min-h-screen flex flex-col p-5 items-center text-center justify-center gap-24  cursor-default select-none font-lexend relative z-10">
 
-			<div className="text-[20vw] absolute -top-28 z-20 w-full text-center">
+			<div className="text-[20vw] absolute -top-28 z-20 text-center flex flex-col justify-start items-center">
 				<h1 className={Milans.className}>
-					{EventData?.title}
+					{eventData.title}
 				</h1>
-				{/* <Navigator/> */}
+				<Navigator
+					selected={selected}
+					setSelected={setSelected}
+				/>
 			</div>
 
 			<Image
@@ -40,11 +63,28 @@ function attend() {
 				height={100}
 			/>
 
-			<Announcements EventData={EventData} />
-			{/* <Attendees/> */}
-			{/* <QrTicket/> */}
-			{/* <LiveStream/> */}
-			{/* <Messaging/> */}
+			{selected=='ANNOUNCEMNT'&&
+				<Announcements 
+					EventData={eventData} 
+				/>
+			}
+			{selected=='ATTENDEE'&&
+				<Attendees 
+					Attendees={eventData.attendees}
+				/>
+			}
+			{selected=='TICKET'&&
+				<QrTicket
+				/>
+			}
+			{selected=='LIVESTREAM'&&
+				<LiveStream
+				/>
+			}
+			{/* {selected=='MESSAGE'&&
+				<Messaging
+				/>
+			} */}
 
 		</main>
 	)

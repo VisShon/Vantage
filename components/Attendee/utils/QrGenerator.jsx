@@ -1,11 +1,11 @@
 import {QRCodeCanvas} from 'qrcode.react'
 
-function QrGenerator() {
+function QrGenerator({link}) {
 	return (
 		<div className='shadow-xl p-5 rounded-xl '>
 			<QRCodeCanvas 
 				size={200}
-				value="https://reactjs.org/" 
+				value={link}
 			/>
 		</div>
 	)

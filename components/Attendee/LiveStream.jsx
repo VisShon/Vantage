@@ -1,19 +1,22 @@
-import { useRouter } from 'next/router'
+import { useState } from 'react'
 function LiveStream() {
-	
-	const router = useRouter()
-	const { slug } = router.query
+	const [id,setId] = useState('')
 
 	return (
 		<div className='w-screen h-screen flex flex-col gap-10 justify-center items-center'>
-			<iframe
-				src={`/${slug}`}
+			{<input
+				className=''
+				onChange={(e)=>setId(e.target.value)}
+				value={id}
+			/>}
+			{id&&<iframe
+				src={`/${id}`}
 				width={'100%'}
 				height={'100%'}
 				allowFullScreen
 				allow="autoplay; encrypted-media; picture-in-picture"
 				sandbox="allow-scripts"
-			/>
+			/>}
 		</div>
 	)
 }

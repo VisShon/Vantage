@@ -1,0 +1,21 @@
+query Query($where: EventWhere) {
+	events(where: $where) {
+		title
+		toDate
+		timestamp
+		sponsors {
+			URL
+			image
+		}
+		organisers {
+			username
+			id
+		}
+		fromDate
+		details
+		attendees {
+			id
+		}
+		links
+	}
+}

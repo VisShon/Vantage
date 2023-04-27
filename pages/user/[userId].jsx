@@ -40,7 +40,7 @@ function User() {
 	},[loading])
 
 	return (
-		<main className='flex flex-col items-center justify-center bg-[#F6AC63] min-h-screen'>
+		<main className='flex flex-col items-center justify-start bg-[#F6AC63] min-h-screen pt-[20%] p-5'>
 			<Image
 				className="absolute -top-20 left-[28%] w-[19%] z-0"
 				src={"/OrbBlue.svg"}
@@ -75,7 +75,7 @@ function User() {
 				<h1 className={Milans.className}>{profileData?.username}</h1>
 			</div>
 
-			<div className="flex pt-[2%] relative z-0 mb-20">
+			<div className="flex relative z-0 ">
 				{links?.map((link,index)=>{
 					<LinkTab
 						link={link}
@@ -88,10 +88,11 @@ function User() {
 				{profileData?.AttendedEvents?.map((item,index)=>(
 					<ProfileEvents
 						key={index}
-						title={item.event.title}
-						description={item.event.description}
-						links={item.event.links}
-						position={item.position}
+						title={item.title}
+						description={item.details}
+						id={item.id}
+						links={item.links}
+						position={'attendee'}
 						bgColor={'#FDFFEA'}
 						color={'#BE9F31'}
 					/>
@@ -102,10 +103,11 @@ function User() {
 				{profileData?.OrganisedEvent?.map((item,index)=>(
 					<ProfileEvents
 						key={index}
-						title={item.event.title}
-						description={item.event.description}
-						links={item.event.links}
-						position={item.position}
+						title={item.title}
+						description={item.details}
+						id={item.id}
+						links={item.links}
+						position={'organiser'}
 						bgColor={'#FDFFEA'}
 						color={'#BE9F31'}
 					/>

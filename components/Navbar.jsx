@@ -39,8 +39,8 @@ function Navbar() {
 
 				<div className=" flex gap-10">
 					<Link className="hover:text-[#4c1549] hover:font-[400]" href={'/explore'}>Explore</Link>
-					<Link className="hover:text-[#4c1549] hover:font-[400]" href={'/Host'}>Host</Link>
-					<Link className="hover:text-[#4c1549] hover:font-[400]" href={'/attend'}>Attend</Link>
+					<Link className="hover:text-[#4c1549] hover:font-[400]" href={'/host'}>Host</Link>
+					<Link className="hover:text-[#4c1549] hover:font-[400]" href={'/explore'}>Attend</Link>
 				</div>
 
 

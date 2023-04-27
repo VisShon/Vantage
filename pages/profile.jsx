@@ -23,6 +23,7 @@ function Profile() {
 			}
 		}
 	})
+
 	useEffect(() => {
 		if(loading){
 			nProgress.start()
@@ -40,7 +41,7 @@ function Profile() {
 	},[loading])
 
 	return (
-		<main className='flex flex-col items-center justify-center bg-[#F6AC63] min-h-screen'>
+		<main className='flex flex-col items-center justify-start bg-[#F6AC63] min-h-screen pt-[18%] p-5'>
 			<Image
 				className="absolute -top-20 left-[28%] w-[19%] z-0"
 				src={"/OrbBlue.svg"}
@@ -64,18 +65,18 @@ function Profile() {
 			/>
 			
 			<Image
-				className="absolute top-10 border-2 border-[white] rounded-full w-[10%] z-20 mt-10"
+				className="absolute top-0 border-2 border-[white] rounded-full w-[10%] z-20 mt-10"
 				src={'https://xsgames.co/randomusers/assets/images/favicon.png'}
 				width={500}
 				height={500}
 				alt={'Vantage'}
 			/>
 
-			<div className="text-[10vw] cursor-pointer z-0  h-[12rem] mt-10 absolute top-28 ">
+			<div className="text-[10vw] cursor-pointer z-0  h-[12rem] mt-2 absolute top-24 ">
 				<h1 className={Milans.className}>{profileData?.username}</h1>
 			</div>
 
-			<div className="flex pt-[2%] relative z-0 mb-20">
+			<div className="flex relative z-0">
 					<LinkInput
 						type={'twitter'}
 						links={links}
@@ -106,10 +107,11 @@ function Profile() {
 				{profileData?.AttendedEvents?.map((item,index)=>(
 					<ProfileEvents
 						key={index}
-						title={item.event.title}
-						description={item.event.description}
-						links={item.event.links}
-						position={item.position}
+						title={item.title}
+						id={item.id}
+						description={item.details}
+						links={item.links}
+						position={'attendee'}
 						bgColor={'#FDFFEA'}
 						color={'#BE9F31'}
 					/>
@@ -120,10 +122,11 @@ function Profile() {
 				{profileData?.OrganisedEvent?.map((item,index)=>(
 					<ProfileEvents
 						key={index}
-						title={item.event.title}
-						description={item.event.description}
-						links={item.event.links}
-						position={item.position}
+						title={item.title}
+						id={item.id}
+						description={item.details}
+						links={item.links}
+						position={'organiser'}
 						bgColor={'#FDFFEA'}
 						color={'#BE9F31'}
 					/>

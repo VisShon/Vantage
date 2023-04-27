@@ -1,38 +1,72 @@
 import Image from 'next/image';
 import localFont from 'next/font/local'
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
-
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from "@apollo/client"
+import AddEvent from "../apollo/Event/addEvent.graphql"
+import nProgress from 'nprogress'
 import { useState, useEffect } from 'react'
-
+import { decode } from 'jsonwebtoken';
 import Box from '@mui/material/Box'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { useRouter } from 'next/router';
 
 
-function host() {
+function host({id}) {
 	const [title,setTitle] = useState('')
 	const [details,setDetails] = useState('')
 	const [fromDate, setFromDate] = useState(new Date())
 	const tommorow = new Date().setDate(fromDate.getDate()+1)
 	const [toDate, setToDate] = useState(new Date(tommorow))
-
+	const router = useRouter()
+	console.log(id)
+	const [addEvent,{error,loading,data}] = useMutation(AddEvent);
+	console.log(error,data)
 	
+	const handleEventCreation = () =>{
+		addEvent({
+			variables:{
+				input: [
+				  {
+					toDate,
+					fromDate,
+					details,
+					title,
+					timestamp: new Date(),
+					organisers: {
+						connect: [
+							{
+								where: {
+									node: {
+										id
+									}
+								}
+							}
+						]
+					}
+				  }
+				]
+			  }
+		})
+	}
 
-
-
-	// {
-	// 	"input": [
-	// 	  {
-	// 		"details": null,
-	// 		"title": null,
-	// 		"toDate": null,
-	// 		"fromDate": null
-	// 	  }
-	// 	]
-	//   }
-
+	useEffect(() => {
+		if(loading){
+			nProgress.start()
+		}
+		if(!loading){
+			nProgress.done(false)
+			if(data)
+				router.push(`/event/${data.createEvents.events[0].id}`)
+			if(error)
+				alert(error)
+		}
+		
+		if(error){
+			nProgress.done(false)
+		}
+	},[loading])
 
 
 	return (
@@ -122,12 +156,12 @@ function host() {
 					</LocalizationProvider>
 				</div>
 
-				<button
+				{!loading&&<button
 					className='p-2 bg-[#91339E] text-[white] font-light font-lexend text-center rounded-lg w-[20%] hover:bg-[#6b2774] m-4'
-					onClick={''}
+					onClick={handleEventCreation}
 				>
 					Create Event
-				</button>
+				</button>}
 
 			</div>
 		</main>
@@ -135,3 +169,12 @@ function host() {
 }
 
 export default host
+
+export async function getServerSideProps({req,res}){
+	const token = req.cookies.token
+	return {
+		props:{
+			id:decode(token).id
+		}
+	}
+}

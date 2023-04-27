@@ -4,6 +4,7 @@ query GetUser($where: UserWhere) {
 		username
 		links
 		AttendedEvents {
+			id
 			title
 			links
 			details

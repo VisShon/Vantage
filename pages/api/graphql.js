@@ -7,6 +7,7 @@ import { OGM } from "@neo4j/graphql-ogm";
 
 import typeDefs from '@/graphql/schema.graphql'
 import jwt from 'jsonwebtoken';
+import { cache } from "react";
 
 const driver = neo4j.driver(
 	process.env.NEO4J_URI,
@@ -30,10 +31,19 @@ const getSchema = async () => {
 	return await schema.getSchema()
 }
 
-const decodeToken = (token) =>{
+const decodeToken = async (token) =>{
 	return jwt.decode(token)
 }
 
+const verifyToken = async (token) =>{
+	try{
+		jwt.verify(token, process.env.JWT_KEY)
+		return true
+	}
+	catch{
+		return false
+	}
+}
 	 
 const apolloServer = new ApolloServer({
 	schema: await getSchema(),
@@ -109,7 +119,13 @@ export const logIn = async(args) =>{
 export default startServerAndCreateNextHandler(apolloServer,{
 	context: async (req) => {
 		const token = req.cookies.token;
-		const payload = decodeToken(token)
+		
+		let payload = {}
+		const validity = verifyToken(token)
+		
+		if(validity)
+			payload = decodeToken(token)
+
 		return { 
 			executionContext: driver,
 			jwt: payload

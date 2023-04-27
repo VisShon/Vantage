@@ -1,0 +1,10 @@
+mutation AddEvent($input: [EventCreateInput!]!) {
+	createEvents(input: $input) {
+		events {
+			id
+			organisers {
+				username
+			}
+		}
+	}
+}

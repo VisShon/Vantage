@@ -30,7 +30,7 @@ function LinkInput({links=[], setLinks, type, id}) {
 	}
 
 
-	const [addUseLink,{error,loading}] = useMutation(AddUseLink);
+	const [addUserLink,{error,loading}] = useMutation(AddUseLink);
 
 	useEffect(()=>{
 		setValue(links?.filter(item=>item.includes(type))[0])
@@ -52,7 +52,7 @@ function LinkInput({links=[], setLinks, type, id}) {
 	
 	const updateUser = () => {
 		setLinks([...links, value])
-		addUseLink({
+		addUserLink({
 			variables:{
 				where: {
 				  id

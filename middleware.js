@@ -6,7 +6,7 @@ export async function middleware(req) {
     const {pathname} = req.nextUrl;
 
     //Profile link redirects
-    if (pathname.startsWith("/profile")||pathname.startsWith("/dasboard")) {
+    if (pathname.startsWith("/profile")||pathname.startsWith("/dasboard")||pathname.startsWith("/host")) {
         if (jwt === undefined) {
             req.nextUrl.pathname = "/login";
             return NextResponse.redirect(req.nextUrl);
@@ -79,5 +79,5 @@ export async function decode(token) {
 }
 
 export const config = {
-	matcher: ['/profile','/user/:path*','/dashboard/:path*','/signup','/login'],
+	matcher: ['/profile','/user/:path*','/dashboard/:path*','/signup','/login', '/host'],
 }

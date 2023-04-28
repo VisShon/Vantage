@@ -41,10 +41,6 @@ function SignUp() {
 				<h1 className={Milans.className}>Vantage</h1>
 			</div>
 
-			<p className="absolute top-10 z-10 font-light mt-20">
-				Experience the Event Advantage.
-			</p>
-
 			<div className="h-[40%] flex flex-col justify-end w-[30%] items-center">
 				<input
 					className="glass bg-[#ffffffaf] h-10 z-5 rounded-lg p-3 my-2 w-full text-[grey]"

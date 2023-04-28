@@ -16,14 +16,11 @@ function LoginButton({email, password}) {
 				password
 			})
 		})
-		if(false) 
-			router.push(`/Profile/${user.id}`)
-	}
 
-	// useEffect(()=>{
-	// 	if(true) 
-	// 		router.push(`/Profile/${user.id}`)
-	// },[])
+		if(res.status==200){
+			router.push('/profile')
+		}
+	}
 
 	return (
 		<button

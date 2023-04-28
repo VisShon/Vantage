@@ -40,10 +40,6 @@ function Login() {
 				<h1 className={Milans.className}>Vantage</h1>
 			</div>
 
-			<p className="absolute top-20 z-10 font-light mt-20">
-				Experience the Event Advantage.
-			</p>
-
 			<div className="h-[50%] flex flex-col justify-end w-[30%] items-center">
 				<input
 					className="h-10 z-30 rounded-lg p-5 my-2 w-full text-[grey] glass bg-[#ffffffaf] "
@@ -61,7 +57,10 @@ function Login() {
 					>
 				</input>
 
-				<LoginButton/>
+				<LoginButton
+					email={email}
+					password={password}
+				/>
 
 			</div>
 	</main>

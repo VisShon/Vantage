@@ -51,6 +51,7 @@ function Explore({}) {
 				.map((item,index)=>(
 					<EventCard
 						key={index}
+						id={item.id}
 						title={item.title}
 						description={item.details.slice(0,200)}
 						links={item.links}

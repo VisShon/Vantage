@@ -46,7 +46,7 @@ const verifyToken = async (token) =>{
 	 
 const apolloServer = new ApolloServer({
 	schema: await getSchema(),
-	playground: true,
+	playground: false,
 })
 
 

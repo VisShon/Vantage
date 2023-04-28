@@ -1,18 +1,19 @@
-
 import { getType } from "@/util/getType"
 import Image from "next/image"
 import Link from "next/link"
-function EventCard({title,date,links,description,bgColor,color}) {
+
+function ProfileEvents({title,links,description,bgColor,color,id}) {
 	return (
-		<div className="w-[80%] justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[40vh] m-5 flex flex-col items-start gap-2 hover:shadow-md mb-28">
+		<Link href={`/dashboard/${id}/host`} className="w-full justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[35vh] flex flex-col items-start gap-2 hover:shadow-md ">
 			<h2
+				className=""
 				style={{color:color}}
 			>
 				{title}
 			</h2>
 
 			<p className="text-[#4D4D4D]">
-				{date}
+				organiser
 			</p>
 
 			<div className="flex">
@@ -35,10 +36,10 @@ function EventCard({title,date,links,description,bgColor,color}) {
 			</div>
 
 			<span className="mt-10">
-				{description}
+				{description.slice(0,200)}...
 			</span>
-		</div>
+		</Link>
 	)
 }
 
-export default EventCard
+export default ProfileEvents

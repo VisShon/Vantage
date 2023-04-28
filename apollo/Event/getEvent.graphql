@@ -3,6 +3,7 @@ query Query($where: EventWhere) {
 		title
 		toDate
 		timestamp
+		address
 		sponsors {
 			URL
 			image

@@ -1,0 +1,8 @@
+mutation AddSponsor($input: [SponsorCreateInput!]!) {
+  createSponsors(input: $input) {
+    sponsors {
+      id
+      URL
+    }
+  }
+}

@@ -11,8 +11,8 @@ function Announcements({EventData}) {
 					<Announcement
 						key={announcement.index}
 						title={announcement.title}
-						description={announcement.description}
-						date={announcement.timestamp }
+						description={announcement.details}
+						date={announcement.timeStamp }
 					/>
 				))}
 			</section>

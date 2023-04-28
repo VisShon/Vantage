@@ -1,0 +1,7 @@
+mutation CreateMail($input: [MailCreateInput!]!) {
+  createMail(input: $input) {
+    mail {
+      id
+    }
+  }
+}

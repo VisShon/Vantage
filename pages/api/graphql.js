@@ -115,40 +115,15 @@ export const logIn = async(args) =>{
 	return token
 }
 
-
-export const getAttendance = async(userId,eventId) =>{
-	await ogm.init()
-	const Event = ogm.model('Event')
-	const selectionSet= '{id,attendees{id}}'
-
-	const events = await Event.find({
-		where: {
-			id: eventId
-		},
-		selectionSet
-	})
-
-	if(events.length==0)
-		return 'EVENT_NOT_EXIST'
-
-	if(events[0].attendees.includes(userId)){
-		return('USER_REGISTERED')
-	}
-
-	return('USER_NOT_REGISTERED')
-}
-
-
 export default startServerAndCreateNextHandler(apolloServer,{
 	context: async (req) => {
 		const token = req.cookies.token;
-		
 		let payload = {}
-		const validity = verifyToken(token)
-		
+		const validity = await  verifyToken(token)
 		if(validity)
-			payload = decodeToken(token)
+			payload = await decodeToken(token)
 
+		console.log(payload)
 		return { 
 			executionContext: driver,
 			jwt: payload

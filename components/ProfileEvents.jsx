@@ -2,9 +2,9 @@ import { getType } from "@/util/getType"
 import Image from "next/image"
 import Link from "next/link"
 
-function ProfileEvents({title,position,links,description,bgColor,color,id}) {
+function ProfileEvents({title,links,description,bgColor,color,id}) {
 	return (
-		<Link href={`/event/${id}`} className="w-full justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[35vh] flex flex-col items-start gap-2 hover:shadow-md ">
+		<Link href={`/dashboard/${id}/attend`} className="w-full justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[35vh] flex flex-col items-start gap-2 hover:shadow-md ">
 			<h2
 				className=""
 				style={{color:color}}
@@ -13,7 +13,7 @@ function ProfileEvents({title,position,links,description,bgColor,color,id}) {
 			</h2>
 
 			<p className="text-[#4D4D4D]">
-				{position}
+				organiser
 			</p>
 
 			<div className="flex">

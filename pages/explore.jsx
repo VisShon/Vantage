@@ -47,11 +47,12 @@ function Explore({}) {
 			</div>
 
 			<div className='grid grid-cols-4 gap-4 pt-[20%] z-0'>
-				{events?.map((item,index)=>(
+				{events?.filter((event)=>event.title.toLowerCase()==searchParam.toLowerCase()||searchParam=='')
+				.map((item,index)=>(
 					<EventCard
 						key={index}
 						title={item.title}
-						description={item.description}
+						description={item.details.slice(0,200)}
 						links={item.links}
 						date={item.fromDate}
 						bgColor={'#FFEAEA'}

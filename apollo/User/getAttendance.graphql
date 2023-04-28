@@ -1,0 +1,21 @@
+uery Query($where: EventWhere, $attendeesConnectionWhere2: EventAttendeesConnectionWhere) {
+  events(where: $where) {
+    attendeesConnection(where: $attendeesConnectionWhere2) {
+      edges {
+        URL
+      }
+    }
+  }
+}
+
+
+# {
+#   "where": {
+#     "id": null
+#   },
+#   "attendeesConnectionWhere2": {
+#     "node": {
+#       "id": null
+#     }
+#   }
+# }

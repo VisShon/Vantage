@@ -20,9 +20,7 @@ function host({id}) {
 	const tommorow = new Date().setDate(fromDate.getDate()+1)
 	const [toDate, setToDate] = useState(new Date(tommorow))
 	const router = useRouter()
-	console.log(id)
 	const [addEvent,{error,loading,data}] = useMutation(AddEvent);
-	console.log(error,data)
 	
 	const handleEventCreation = () =>{
 		addEvent({

@@ -8,6 +8,7 @@ import { decode } from 'jsonwebtoken';
 const Milans = localFont({ src: '../../styles/fonts/Milans/Milans.ttf' })
 import GetEvent from '@/apollo/Event/getEvent.graphql'
 import nProgress from 'nprogress'
+import Link from "next/link";
 
 function Details({userId}) {
 	const [eventData, setEventData] = useState({})
@@ -21,7 +22,6 @@ function Details({userId}) {
 			}
 		}
 	})
-	
 	
 	useEffect(() => {
 		if(loading){
@@ -82,14 +82,16 @@ function Details({userId}) {
 						</h2>
 						<div className='grid grid-cols-4 gap-4  z-0 bg-[white] text-[black] rounded-2xl p-5'>
 							{eventData.sponsors?.map((sponsor,index)=>(
-								<Image
-									className="w-[10%] z-0"
-									alt="vantage"
-									key={index}
-									src={"https://thumbs.dreamstime.com/b/sponsor-stamp-illustration-blue-seal-design-111726233.jpg"}
-									width={50}
-									height={50}
-								/>
+								<Link href={sponsor.URL}>
+									<Image
+										className="w-full z-0"
+										alt="vantage"
+										key={index}
+										src={sponsor.image}
+										width={500}
+										height={500}
+									/>
+								</Link>
 								
 							))}
 						</div>

@@ -28,6 +28,8 @@ function attend({ticketLink}) {
 			}
 		}
 	})
+
+	
 	
 	useEffect(() => {
 		if(loading){
@@ -99,21 +101,6 @@ export async function getServerSideProps({req,res,params}){
 
 		const eventId = params.eventId
 		const userId = decode(req.cookies.token).id
-
-		const attendance = await fetch("http://localhost:3000/api/attendance/getUserAttendance", {
-			method: "post",
-			mode:'cors',
-			credentials:'same-origin',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				eventId,
-				userId
-			})
-		})
-		
-		console.log(JSON.stringify(attendance.json))
 
 		return{
 			props:{

@@ -1,0 +1,8 @@
+mutation AddLink($where: EventWhere, $update: EventUpdateInput) {
+  updateEvents(where: $where, update: $update) {
+    events {
+      id,
+      links
+    }
+  }
+}

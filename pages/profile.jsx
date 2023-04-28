@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import localFont from 'next/font/local'
 import ProfileEvents from '@/components/ProfileEvents'
+import ProfileEventsHosted from '@/components/ProfileEventsHosted'
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
 import GetUser from '@/apollo/User/getUser.graphql'
 import nProgress from 'nprogress'
@@ -111,7 +112,6 @@ function Profile() {
 						id={item.id}
 						description={item.details}
 						links={item.links}
-						position={'attendee'}
 						bgColor={'#FDFFEA'}
 						color={'#BE9F31'}
 					/>
@@ -120,13 +120,12 @@ function Profile() {
 
 			<div className='grid grid-cols-4 gap-4 grid-flow-row-dense z-0'>
 				{profileData?.OrganisedEvent?.map((item,index)=>(
-					<ProfileEvents
+					<ProfileEventsHosted
 						key={index}
 						title={item.title}
 						id={item.id}
 						description={item.details}
 						links={item.links}
-						position={'organiser'}
 						bgColor={'#FDFFEA'}
 						color={'#BE9F31'}
 					/>

@@ -6,7 +6,7 @@ export async function middleware(req) {
     const {pathname} = req.nextUrl;
 
     //Profile link redirects
-    if (pathname.startsWith("/profile")||pathname.startsWith("/dasboard")||pathname.startsWith("/host")) {
+    if (pathname.startsWith("/profile")||pathname.startsWith("/dashboard")||pathname.startsWith("/host")) {
         if (jwt === undefined) {
             req.nextUrl.pathname = "/login";
             return NextResponse.redirect(req.nextUrl);

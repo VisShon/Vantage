@@ -5,6 +5,8 @@ import Image from 'next/image';
 function QrScanner() {
 	const [data, setData] = useState('No result');
 
+	//send notifs
+	
 	const ViewFinder = () => (
 		<Image
 			className='absolute z-30 top-[30%] left-[25%] opacity-70'

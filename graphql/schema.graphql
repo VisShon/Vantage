@@ -7,7 +7,7 @@ type Event {
 	details: String
 	timestamp: Date
 	links:[String]
-
+	address: String
 	#relations
 	attendees: [User!]! @relationship(type: "Attendee", direction: OUT, properties: "Attendee")
 	sponsors: [Sponsor!]! @relationship(type: "Sponsors", direction: OUT)
@@ -59,7 +59,7 @@ type Announcement {
 type Mail {
 	#node
 	id: ID! @id
-	idject: String
+	subject: String
 	message: String
 
 	#relations
@@ -87,7 +87,9 @@ extend type Sponsor
 		operations: [UPDATE,DELETE]
 		allow: {
 			event:{
-				organisers: {id: "$jwt.id"}
+				organisers: {
+					id: "$jwt.id"
+				}
 			}
 		}
 	},
@@ -104,7 +106,7 @@ extend type Mail
 		operations: [UPDATE,DELETE,CONNECT,DISCONNECT]
 		allow: {
 			event:{
-				organisers: {id: "$jwt.id"}
+				organisers:{id: "$jwt.id"}
 			}
 		}
 	},
@@ -118,9 +120,7 @@ extend type Event
 	@auth(
 	rules:[{
 		operations: [UPDATE,DELETE,DISCONNECT]
-		allow: {
-			organisers: {id: "$jwt.id"}
-		}
+		allow: {organisers: {id: "$jwt.id"}}
 	},
 	{
 		operations: [CONNECT]

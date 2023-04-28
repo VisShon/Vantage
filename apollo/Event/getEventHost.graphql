@@ -1,0 +1,27 @@
+query GetEventHost($where: EventWhere) {
+  events(where: $where) {
+    links
+    mailList {
+      message
+      id
+      subject
+    }
+    fromDate
+    address
+    details
+    title
+    organisers{
+      username
+      id
+    }
+    toDate
+    sponsors {
+      URL
+      amount
+      contact
+      email
+      id
+      image
+    }
+  }
+}

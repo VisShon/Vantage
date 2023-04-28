@@ -23,8 +23,7 @@ function LiveStream() {
 				allowFullScreen
 				allow="autoplay; encrypted-media; picture-in-picture"
 				sandbox="allow-scripts"
-				/>}
-				
+			/>}
 			<input
 				className='rounded-lg p-2 bg-[white] text-[black] mt-2'
 				onChange={(e)=>setId(e.target.value)}

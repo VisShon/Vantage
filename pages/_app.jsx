@@ -2,8 +2,13 @@ import '@/styles/globals.css'
 import { useState,  useEffect} from 'react'
 import Nprogress from 'nprogress'
 import Router from 'next/router'
+
 import { ApolloProvider } from '@apollo/client'
 import { Initalize } from '@/apollo/index'
+
+import {LivepeerConfig} from '@livepeer/react';
+import { livepeerClient } from '@/util/Livepeer'
+
 import Navbar from '@/components/Navbar'
 
 
@@ -34,8 +39,10 @@ export default function App({ Component, pageProps }) {
 	return (
 		<>	
 			<ApolloProvider client={Apolloclient}>
-					<Component {...pageProps}/>
-					<Navbar/>
+					<LivepeerConfig client={livepeerClient}>
+							<Component {...pageProps}/>
+							<Navbar />
+					</LivepeerConfig>
 			</ApolloProvider>
 		</>
 	)

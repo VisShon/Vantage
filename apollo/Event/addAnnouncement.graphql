@@ -1,0 +1,7 @@
+mutation AddAnnouncement($input: [AnnouncementCreateInput!]!) {
+  createAnnouncements(input: $input) {
+    announcements {
+      id
+    }
+  }
+}

@@ -6,7 +6,7 @@ const Milans = localFont({ src: '../../../styles/fonts/Milans/Milans.ttf' })
 function TeamProfile({profilePic='https://xsgames.co/randomusers/assets/images/favicon.png', name='User', id=''}) {
 	return (
 		<Link
-			href={`/${id}`}
+			href={`/user/${id}`}
 			className="p-10 flex flex-col items-center justify-center w-[80%] h-[80%] "
 		>
 			<Image

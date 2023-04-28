@@ -25,7 +25,6 @@ const schema = new Neo4jGraphQL({
 	driver 
 })
 
-
 const getSchema = async () => {
 	console.log("Building GraphQL Schema")
 	return await schema.getSchema()
@@ -49,7 +48,6 @@ const apolloServer = new ApolloServer({
 	schema: await getSchema(),
 	playground: true,
 })
-
 
 
 const ogm = new OGM({
@@ -95,6 +93,7 @@ export const signUp = async(args) =>{
 	return token
 }
 
+
 export const logIn = async(args) =>{
 	await ogm.init()
 	const User = ogm.model('User')
@@ -115,6 +114,30 @@ export const logIn = async(args) =>{
 	)
 	return token
 }
+
+
+export const getAttendance = async(userId,eventId) =>{
+	await ogm.init()
+	const Event = ogm.model('Event')
+	const selectionSet= '{id,attendees{id}}'
+
+	const events = await Event.find({
+		where: {
+			id: eventId
+		},
+		selectionSet
+	})
+
+	if(events.length==0)
+		return 'EVENT_NOT_EXIST'
+
+	if(events[0].attendees.includes(userId)){
+		return('USER_REGISTERED')
+	}
+
+	return('USER_NOT_REGISTERED')
+}
+
 
 export default startServerAndCreateNextHandler(apolloServer,{
 	context: async (req) => {

@@ -11,6 +11,7 @@ import nProgress from 'nprogress'
 import { useRouter } from "next/router"
 import { useQuery } from '@apollo/client'
 import { useState,useEffect } from 'react';
+import { decode } from 'jsonwebtoken';
 const Milans = localFont({ src: '../../../styles/fonts/Milans/Milans.ttf' })
 
 function attend({ticketLink}) {
@@ -19,7 +20,7 @@ function attend({ticketLink}) {
 	const [eventData, setEventData] = useState({})
 	const router = useRouter()
 	const id = router.query.eventId
-	console.log(id)
+
 	const { loading, error, data } = useQuery(GetEventAttend,{
 		variables:{
 			where:{
@@ -41,7 +42,6 @@ function attend({ticketLink}) {
 		}
 	},[loading])
 
-	console.log(eventData)
 
 	return (
 		<main className="bg-[#86BDA6] min-h-screen flex flex-col p-5 items-center text-center justify-center gap-24  cursor-default select-none font-lexend relative z-10">
@@ -75,6 +75,9 @@ function attend({ticketLink}) {
 			}
 			{selected=='TICKET'&&
 				<QrTicket
+					// userMail={}
+					// userTicket={}
+					eventTitle={eventData.title}
 				/>
 			}
 			{selected=='LIVESTREAM'&&
@@ -91,3 +94,30 @@ function attend({ticketLink}) {
 }
 
 export default attend
+
+export async function getServerSideProps({req,res,params}){
+
+		const eventId = params.eventId
+		const userId = decode(req.cookies.token).id
+
+		const attendance = await fetch("http://localhost:3000/api/attendance/getUserAttendance", {
+			method: "post",
+			mode:'cors',
+			credentials:'same-origin',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				eventId,
+				userId
+			})
+		})
+		
+		console.log(JSON.stringify(attendance.json))
+
+		return{
+			props:{
+
+			}
+		}
+}

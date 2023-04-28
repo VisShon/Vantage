@@ -21,7 +21,7 @@ function QrTicket({userMail,userTicket,eventTitle}) {
 			<div>
 				<h2
 					className="text-[#31BEB6]">
-					{TicketData?.title}
+					{eventTitle}
 				</h2>
 			</div>
 

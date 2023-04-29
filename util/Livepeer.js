@@ -5,6 +5,6 @@ import {
 
 export const livepeerClient = createReactClient({
     provider: studioProvider({
-      apiKey: 'fc5005e6-0077-4ff3-9e42-ddd5869b6c35',
+      apiKey: '8c6b6ea2-0d5d-4763-bb29-1fcd6d44de11',
     }),
 });

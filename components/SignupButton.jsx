@@ -18,14 +18,10 @@ function SignupButton({username, email, password}) {
 			})
 		})
 		
-		if(false) 
-			router.push(`/Profile/${user.id}`)
+		if(res.status==200){
+			router.push('/profile')
+		}
 	}
-	
-	// useEffect(()=>{
-	// 	if(isLoggedIn) 
-	// 		router.push(`/Profile/${user.id}`)
-	// },[])
 
 	return (
 		<button

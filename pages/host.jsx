@@ -22,8 +22,8 @@ function host({id}) {
 	const router = useRouter()
 	const [addEvent,{error,loading,data}] = useMutation(AddEvent);
 	
-	const handleEventCreation = () =>{
-		addEvent({
+	const handleEventCreation = async () =>{
+		await addEvent({
 			variables:{
 				input: [
 				  {
@@ -47,6 +47,15 @@ function host({id}) {
 				]
 			  }
 		})
+
+		await fetch("/api/auth/refresh", {
+			method: "post",
+			mode:'cors',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+
 	}
 
 	useEffect(() => {

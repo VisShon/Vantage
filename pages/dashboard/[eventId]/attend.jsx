@@ -14,7 +14,7 @@ import { useState,useEffect } from 'react';
 import { decode } from 'jsonwebtoken';
 const Milans = localFont({ src: '../../../styles/fonts/Milans/Milans.ttf' })
 
-function attend({ticketLink}) {
+function attend({userId}) {
 
 	const [selected,setSelected] = useState('ANNOUNCEMNT') 
 	const [eventData, setEventData] = useState({})
@@ -43,7 +43,6 @@ function attend({ticketLink}) {
 			nProgress.done(false)
 		}
 	},[loading])
-
 
 	return (
 		<main className="bg-[#86BDA6] min-h-screen flex flex-col p-5 items-center text-center justify-center gap-24  cursor-default select-none font-lexend relative z-10">
@@ -77,8 +76,7 @@ function attend({ticketLink}) {
 			}
 			{selected=='TICKET'&&
 				<QrTicket
-					// userMail={}
-					// userTicket={}
+					userId={userId}
 					eventTitle={eventData.title}
 				/>
 			}
@@ -98,13 +96,10 @@ function attend({ticketLink}) {
 export default attend
 
 export async function getServerSideProps({req,res,params}){
-
-		const eventId = params.eventId
-		const userId = decode(req.cookies.token).id
-
+		const userId = await decode(req.cookies.token)?.id
 		return{
 			props:{
-
+				userId:userId||null
 			}
 		}
 }

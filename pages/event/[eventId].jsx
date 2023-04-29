@@ -36,7 +36,6 @@ function Details({userId}) {
 		}
 	},[loading])
 
-
 	return (
 		<main className="flex flex-col justify-center items-left text-left relative w-full bg-[#648AAE]">
 			<div className="text-[20vw] absolute -top-20 z-20 w-full text-center">
@@ -127,9 +126,9 @@ function Details({userId}) {
 						toDate={eventData.toDate} 
 						links={eventData.links} 
 						address={eventData.address} 
-						attendees={eventData.attendees?.length}
+						attendees={eventData.attendees}
 						isUserAttending={false}
-						id={eventData.id}
+						id={id}
 						userID={userId}		
 					/>
 				</section>
@@ -142,9 +141,10 @@ export default Details
 
 export async function getServerSideProps({req,res}){
 	const token = req.cookies.token
+	const userId= await decode(token)?.id
 	return {
 		props:{
-			userId:decode(token).id
+			userId:userId||null
 		}
 	}
 }

@@ -5,12 +5,10 @@ import cookie from 'cookie'
 export default async function handler(req,res){
 	
 	const {password,email} = req.body
-	const passwordHash = await bcrypt.hash(password,12)
-	console.log(passwordHash)
 	
 	const token = await logIn({
 		email:email,
-		password:passwordHash,
+		password:password,
 	})
 
 	if(token=='USER_NOT_EXISTS')

@@ -5,31 +5,40 @@ import AddLink from '@/apollo/Event/addLink.graphql'
 import Link from 'next/link';
 
 function Links({linksData,id}) {
-	const [links,setLinks] = useState([])
     const [newLink,setNewLink] = useState('')
     const [isModalOpen,setIsModalOpen] = useState(false)
     const [addLink,{error,data,loading}] = useMutation(AddLink)
-
+	
 	const handleCreateSponsor = () =>{
-		setLinks([...links, newLink])
-        addLink({
-            variables:{
-                input: {
-					where:{
-						id
-					},
-					update: {
-						links:[...links, newLink]
+		if(linksData==null){
+			addLink({
+				variables:{
+					input: {
+						where:{
+							id
+						},
+						update: {
+							links:[newLink]
+						}
 					}
-				}
-             }
-        })
+				 }
+			})
+		}
+		else{
+			addLink({
+				variables:{
+					input: {
+						where:{
+							id
+						},
+						update: {
+							links:[...linksData, newLink]
+						}
+					}
+				 }
+			})
+		}  
 	}
-
-	useEffect(()=>{
-		setLinks(linksData?linksData:[])
-	},[linksData])
-
 
     useEffect(() => {
 		if(loading){
@@ -68,7 +77,7 @@ function Links({linksData,id}) {
 
 			<div className="w-full h-full overflow-y-scroll">
 				<div className='grid grid-cols-4 gap-4  z-0 bg-[white] text-[black] rounded-2xl p-5'>
-					{links?.map((link,index)=>(
+					{linksData?.map((link,index)=>(
 						<Link href={link}>
 							{link}
 						</Link>

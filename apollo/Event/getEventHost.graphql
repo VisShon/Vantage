@@ -10,6 +10,9 @@ query GetEventHost($where: EventWhere) {
     address
     details
     title
+    attendees{
+      id
+    }
     organisers{
       username
       id

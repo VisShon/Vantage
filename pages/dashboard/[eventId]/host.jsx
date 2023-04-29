@@ -54,7 +54,9 @@ function host() {
 				/>
 			}
 			{selected=='QRSCANNER'&&
-				<QrScanner/> 
+				<QrScanner
+					id={IDBRequest}
+				/> 
 			}
 			{selected=='LIVESTREAM'&&
 				<LiveStream

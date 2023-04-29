@@ -13,7 +13,7 @@ function ProfileEvents({title,links,description,bgColor,color,id}) {
 			</h2>
 
 			<p className="text-[#4D4D4D]">
-				organiser
+				attendee
 			</p>
 
 			<div className="flex">

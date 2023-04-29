@@ -51,17 +51,31 @@ function LinkInput({links=[], setLinks, type, id}) {
 	
 	
 	const updateUser = () => {
-		setLinks([...links, value])
-		addUserLink({
-			variables:{
-				where: {
-				  id
-				},
-				update: {
-				  links:[...links, value]
+		if(links==null){
+			addUserLink({
+				variables:{
+					where: {
+					  id
+					},
+					update: {
+					  links:[value]
+					}
 				}
-			}
-		})
+			})
+		}
+		else{
+			addUserLink({
+				variables:{
+					where: {
+					  id
+					},
+					update: {
+					  links:[...links, value]
+					}
+				}
+			})
+		}
+		
 		if(!loading)
 			setIsModalOpen(false)
 		if(error)

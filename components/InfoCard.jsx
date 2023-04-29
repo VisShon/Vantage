@@ -8,14 +8,26 @@ import { useMutation } from "@apollo/client"
 import AddAttendee from "../apollo/Event/addAttendee.graphql"
 const Milans = localFont({ src: '../styles/fonts/Milans/Milans.ttf' })
 import nProgress from "nprogress";
+import { useRouter } from "next/router";
 
-function InfoCard({fromDate, toDate, links, address, attendees=0, id, userID, isUserAttending} ) {
-
-	const [addAttendee,{error,loading,data}] = useMutation(AddAttendee);
-	console.log(error,data)
+function InfoCard({fromDate, toDate, links, address, attendees, id, userID} ) {
+	const router = useRouter()
 	
-	const handleRegister = () =>{
-		addAttendee({
+	const [isUserAttending,setIsUserAttending] =  useState(false)
+	console.log(isUserAttending)
+	const [addAttendee,{error,loading,data}] = useMutation(AddAttendee);
+	
+	useEffect(() => {
+		const attendeeisUser = attendees?.filter(item=>item.id==userID) || []
+		setIsUserAttending(attendeeisUser.length!=0)
+	},[userID,attendees])
+
+	const handleRegister = async() =>{
+		if(!userID){
+			router.push('/login')
+		}
+
+		await addAttendee({
 			variables:{
 				where: {
 				  id
@@ -37,6 +49,16 @@ function InfoCard({fromDate, toDate, links, address, attendees=0, id, userID, is
 				}
 			}
 		})
+
+		await fetch("/api/auth/refresh", {
+			method: "post",
+			mode:'cors',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+
+		setIsUserAttending(true)
 	}
 
 	useEffect(() => {
@@ -45,8 +67,6 @@ function InfoCard({fromDate, toDate, links, address, attendees=0, id, userID, is
 		}
 		if(!loading){
 			nProgress.done(false)
-			if(data)
-				router.push(`/event/${data.createEvents.events[0].id}`)
 			if(error)
 				alert(error)
 		}
@@ -95,9 +115,9 @@ function InfoCard({fromDate, toDate, links, address, attendees=0, id, userID, is
 				))}
 				<div className='p-2 mr-2 text-3xl h-10 rounded-full text-[#316ABE] flex justify-center items-center hover:shadow-md active:opacity-90 select-none bg-[#EAFBFF] '>
 					<h2 className={Milans.className}>
-						{attendees>100?
-						(attendees-attendees%100):
-						attendees}+
+						{attendees?.length>100?
+						(attendees?.length-attendees?.length%100):
+						attendees?.length}+
 					</h2>
 				</div>
 			</div>
@@ -113,12 +133,20 @@ function InfoCard({fromDate, toDate, links, address, attendees=0, id, userID, is
                   allowFullScreen
 			></iframe>}
 
-			<button
+			{!isUserAttending&&<button
 				className='p-4 bg-[#316ABE] font-light font-lexend text-center rounded-lg w-full hover:bg-[#2a5ba5] m-4 text-[white]'
 				onClick={handleRegister}
 			>
 				register
-			</button>
+			</button>}
+
+			{isUserAttending&&
+			<Link
+				className='p-4 bg-[#316ABE] font-light font-lexend text-center rounded-lg w-full hover:bg-[#2a5ba5] m-4 text-[white]'
+				href={`/dashboard/${id}/attend`}
+			>
+				Dashboard
+			</Link>}
 		</div>
 	)
 }

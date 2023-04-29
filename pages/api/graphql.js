@@ -4,10 +4,10 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { Neo4jGraphQL } from "@neo4j/graphql"
 import { Neo4jGraphQLAuthJWTPlugin } from "@neo4j/graphql-plugin-auth";
 import { OGM } from "@neo4j/graphql-ogm";
-
 import typeDefs from '@/graphql/schema.graphql'
 import jwt from 'jsonwebtoken';
 import { cache } from "react";
+import { compare } from "bcrypt";
 
 const driver = neo4j.driver(
 	process.env.NEO4J_URI,
@@ -65,9 +65,24 @@ export const signUp = async(args) =>{
 	await ogm.init()
 	const User = ogm.model('User')
 
+	const selectionSet = `{
+		email
+		id
+		username
+		password
+		AttendedEvents {
+		  id
+		}
+		OrganisedEvent {
+		  id
+		}
+	}`
+
 	const existingUser = await User.find({
-		where:{email:args.email}
+		where:{email:args.email},
+		selectionSet
 	}) 
+
 
 	if(existingUser.length!=0)
 		return 'USER_EXISTS'
@@ -98,13 +113,65 @@ export const logIn = async(args) =>{
 	await ogm.init()
 	const User = ogm.model('User')
 
+	const selectionSet = `{
+		email
+		id
+		username
+		password
+		AttendedEvents {
+		  id
+		}
+		OrganisedEvent {
+		  id
+		}
+	}`
+
 	const existingUser = await User.find({
-		where:{email:args.email, password:args.password}
+		where:{email:args.email},
+		selectionSet
 	}) 
+
+	const correctPassword = await compare(args.password,existingUser[0].password)
+
+	if(!correctPassword)
+		return 'USER_NOT_EXIST'
+	
 
 	if(existingUser.length==0)
 		return 'USER_NOT_EXIST'
 	
+	const token = jwt.sign(
+		existingUser[0],
+		process.env.JWT_KEY,
+		{
+			expiresIn:2592000
+		}
+	)
+	return token
+}
+
+export const refresh = async(args) =>{
+	await ogm.init()
+	const User = ogm.model('User')
+
+	const selectionSet = `{
+		email
+		id
+		username
+		password
+		AttendedEvents {
+		  id
+		}
+		OrganisedEvent {
+		  id
+		}
+	}`
+
+	const existingUser = await User.find({
+		where:{email:args.email},
+		selectionSet
+	}) 
+
 	const token = jwt.sign(
 		existingUser[0],
 		process.env.JWT_KEY,
@@ -123,7 +190,6 @@ export default startServerAndCreateNextHandler(apolloServer,{
 		if(validity)
 			payload = await decodeToken(token)
 
-		console.log(payload)
 		return { 
 			executionContext: driver,
 			jwt: payload

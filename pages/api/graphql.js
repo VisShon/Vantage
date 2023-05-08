@@ -131,23 +131,30 @@ export const logIn = async(args) =>{
 		selectionSet
 	}) 
 
-	const correctPassword = await compare(args.password,existingUser[0].password)
 
-	if(!correctPassword)
-		return 'USER_NOT_EXIST'
-	
+	if(existingUser.length!==0){
 
-	if(existingUser.length==0)
-		return 'USER_NOT_EXIST'
-	
-	const token = jwt.sign(
-		existingUser[0],
-		process.env.JWT_KEY,
-		{
-			expiresIn:2592000
+		const correctPassword = await compare(args.password,existingUser[0].password)
+		console.log(correctPassword)
+
+        console.log('token set form login')
+
+		if(correctPassword){
+			const token = jwt.sign(
+				existingUser[0],
+				process.env.JWT_KEY,
+				{
+					expiresIn:2592000
+				}
+			)
+			return token
 		}
-	)
-	return token
+
+
+		return 'USER_NOT_EXISTS'
+	}
+
+	return 'USER_NOT_EXISTS'
 }
 
 export const refresh = async(args) =>{

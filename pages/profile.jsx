@@ -22,7 +22,8 @@ function Profile() {
 			where:{
 				id
 			}
-		}
+		},
+		fetchPolicy: 'no-cache'
 	})
 
 	useEffect(() => {
@@ -104,7 +105,7 @@ function Profile() {
 					/>
 			</div>
 
-			<div className='grid grid-cols-4 gap-4 grid-flow-row-dense z-0'>
+			<div className='grid grid-cols-4 gap-4 grid-flow-row-dense z-0  w-full'>
 				{profileData?.AttendedEvents?.map((item,index)=>(
 					<ProfileEvents
 						key={index}
@@ -118,7 +119,7 @@ function Profile() {
 				))}
 			</div>
 
-			<div className='grid grid-cols-4 gap-4 grid-flow-row-dense z-0'>
+			<div className='grid grid-cols-4 gap-4 grid-flow-row-dense z-0 mt-5 w-full'>
 				{profileData?.OrganisedEvent?.map((item,index)=>(
 					<ProfileEventsHosted
 						key={index}

@@ -6,7 +6,7 @@ function ProfileEvents({title,links,description,bgColor,color,id}) {
 	return (
 		<Link href={`/dashboard/${id}/host`} className="w-full justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[35vh] flex flex-col items-start gap-2 hover:shadow-md ">
 			<h2
-				className=""
+				className="w-full overflow-hidden"
 				style={{color:color}}
 			>
 				{title}

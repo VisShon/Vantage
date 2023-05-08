@@ -7,6 +7,7 @@ function EventCard({title,date,links,description,bgColor,color,id}) {
 		<Link href={`/event/${id}`} className="w-[80%] justify-self-center bg-[white] p-5 rounded-xl text-[#898989] text-left min-h-[40vh] m-5 flex flex-col items-start gap-2 hover:shadow-md mb-28">
 			<h2
 				style={{color:color}}
+				className="w-full overflow-hidden"
 			>
 				{title}
 			</h2>
@@ -34,8 +35,8 @@ function EventCard({title,date,links,description,bgColor,color,id}) {
 				))}
 			</div>
 
-			<span className="mt-10">
-				{description}
+			<span className="mt-10 w-full break-words">
+				{description.slice(0,200)}...
 			</span>
 		</Link>
 	)

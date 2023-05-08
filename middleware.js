@@ -6,13 +6,20 @@ export async function middleware(req) {
     const {pathname} = req.nextUrl;
     const {search} = req.nextUrl
 
+
+
     if(pathname==='/profile'&&!search){
         if (jwt !== undefined) {
-            console.log('poop')
-            const user = await decode(jwt.value)
-            req.nextUrl.pathname = '/profile';
-            req.nextUrl.search = `?id=${user.id}`;
-            return NextResponse.redirect(req.nextUrl);
+            try {
+                await verify(jwt.value, process.env.JWT_KEY);
+                const user = await decode(jwt.value)
+                req.nextUrl.pathname = '/profile';
+                req.nextUrl.search = `?id=${user.id}`;
+                return NextResponse.redirect(req.nextUrl);
+            } catch (error) {
+                req.nextUrl.pathname = "/login";
+                return NextResponse.redirect(req.nextUrl);
+            }
         }
     }
 

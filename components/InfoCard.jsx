@@ -137,7 +137,7 @@ function InfoCard({fromDate, toDate, links, address, attendees, id, userID} ) {
 				className='p-4 bg-[#316ABE] font-light font-lexend text-center rounded-lg w-full hover:bg-[#2a5ba5] m-4 text-[white]'
 				onClick={handleRegister}
 			>
-				register
+				Register
 			</button>}
 
 			{isUserAttending&&

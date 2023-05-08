@@ -179,14 +179,20 @@ export const refresh = async(args) =>{
 		selectionSet
 	}) 
 
-	const token = jwt.sign(
-		existingUser[0],
-		process.env.JWT_KEY,
-		{
-			expiresIn:2592000
-		}
-	)
-	return token
+	console.log(existingUser)
+	
+	if(existingUser.length!==0){
+		const token = jwt.sign(
+			existingUser[0],
+			process.env.JWT_KEY,
+			{
+				expiresIn:2592000
+			}
+		)
+		return token
+	}
+
+	return 'USER_NOT_EXISTS'
 }
 
 export default startServerAndCreateNextHandler(apolloServer,{

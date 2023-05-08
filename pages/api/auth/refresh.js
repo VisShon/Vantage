@@ -1,25 +1,23 @@
 import { refresh } from "../graphql"
 import cookie from 'cookie'
-import { decode } from "jsonwebtoken";
-import { NextResponse } from "next/server";
+import { decode, verify } from "jsonwebtoken";
 
 export default async function handler(req,res){
-
     const jwt = req.cookies.token
-    const {pathname} = req.nextUrl;
 
+    console.log(jwt)
     if (jwt === undefined) {
-        return NextResponse.redirect('/login');
+        console.log(jwt)
+        return res.redirect('/login');
     }
 
     try {
-        await verify(jwt.value, process.env.JWT_KEY);
+        await verify(jwt, process.env.JWT_KEY);
         const email = await decode(jwt)?.email
         const token = await refresh({
             email:email,
         })
-
-        console.log('token set form refresh')
+        console.log(token,email)
         res.setHeader(
             "Set-Cookie",
             cookie.serialize('token', token, 
@@ -32,11 +30,11 @@ export default async function handler(req,res){
                 }
             )
         ); 
-        NextResponse.redirect('/profile')
+        res.redirect(200,'/profile')
 
     } catch (error) {
-        req.nextUrl.pathname = pathname;
-        return NextResponse.redirect('/login');
+        console.log(error);
+        res.redirect(404,'/login')
     }
 
 }
